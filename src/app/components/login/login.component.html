@@ -1,0 +1,27 @@
+<div class="container mt-5">
+    
+    <div class="text-center">
+        <img class="img-fluid" style="width: 100px;" src="/assets/password.gif" alt="" />
+        
+ </div>
+ <div>
+    <h2>Login Here!!</h2>
+ </div>
+
+    
+    
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+    </form>
+
+</div>

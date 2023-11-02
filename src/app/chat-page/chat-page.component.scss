@@ -1,0 +1,63 @@
+.message_col {
+  border-right: 5px solid black;
+}
+
+.messages-container {
+  height: 70vh;
+}
+/* Hide the scrollbar for webkit (Chrome, Safari) */
+.messages-container::-webkit-scrollbar {
+  width: 0.5rem; /* Set a width for the scrollbar */
+}
+
+/* Track (the area on the sides of the content) */
+.messages-container::-webkit-scrollbar-track {
+  background: transparent; /* Make it transparent */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+.messages-container::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar handle */
+  border-radius: 1rem; /* Rounded corners for the scrollbar handle */
+}
+
+/* Hide the scrollbar for Firefox */
+.messages-container {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; /* Make it transparent */
+}
+
+.total {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+}
+
+/* Divide the body into two equal-height sections */
+.row {
+  flex: 1;
+  border: 2px solid black;
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.user-box img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-box span {
+  font-size: 16px;
+  font-weight: bold;
+}

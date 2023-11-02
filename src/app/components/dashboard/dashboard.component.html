@@ -1,0 +1,18 @@
+<div id="username-page">
+    <div class="username-page-container">
+      <div>
+        Welcome 👋
+      </div>
+      <h1 class="title">Type your nickname to enter the Chatroom</h1>
+      <form id="usernameForm" #usernameForm="ngForm" (ngSubmit)="startChatting(usernameForm.value)">
+        <div class="form-group">
+          <input type="text" #name name="username" ngModel placeholder="Username" autocomplete="off" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="accent username-submit button button1">Start Chatting</button>
+        </div>
+        <div class="text-danger isUser hidden" >Username is required.</div>
+      </form>
+    </div>
+  </div>
+  
