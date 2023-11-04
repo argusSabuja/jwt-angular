@@ -3,6 +3,8 @@
     import { Component, OnInit } from '@angular/core';
     import { IChat } from '../interfaces/ichat';
     import { DatePipe } from '@angular/common';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { ApiService } from 'src/app/service/api.service';
 
     
     @Component({
@@ -12,13 +14,16 @@
     })
     export class MessageComponent implements OnInit {
       chats: IChat[] = [];
-      message: string;
+      message:string;
+      messages$: Observable<Array<{message:string}>>;
+      refreshMessages$=new BehaviorSubject<boolean>(true);
       sending: boolean;
     
-      constructor() {  }
+      constructor(private api:ApiService) {  }
     
       ngOnInit() {
         // subscribe to pusher's event
+        this.messages$=this.refreshMessages$.pipe(switchMap(_=>this.api.getmessages()))
         this.chats = [
           {
             id: '1',
@@ -118,6 +123,7 @@
       }
     
       sendMessage(message: string) {
+
     
     }
   }

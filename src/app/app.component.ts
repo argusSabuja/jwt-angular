@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   }
 
   isLoggedIn(){
-    this.login=this.userServvice.getLogin();
+    this.login=localStorage.getItem('jwt')==null;
     return this.login;
   }
 }
