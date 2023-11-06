@@ -1,129 +1,62 @@
-    // src/app/chat/chat.component.ts
-    
-    import { Component, OnInit } from '@angular/core';
-    import { IChat } from '../interfaces/ichat';
-    import { DatePipe } from '@angular/common';
+// src/app/chat/chat.component.ts
+
+import { Component, Input, OnInit } from '@angular/core';
+import { IChat } from '../interfaces/ichat';
+import { DatePipe } from '@angular/common';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
+import { SharedService } from 'src/app/service/shared.service';
 
-    
-    @Component({
-      selector: 'app-message',
-      templateUrl: './message.component.html',
-      styleUrls: ['./message.component.scss']
-    })
-    export class MessageComponent implements OnInit {
-      chats: IChat[] = [];
-      message:string;
-      messages$: Observable<Array<{message:string}>>;
-      refreshMessages$=new BehaviorSubject<boolean>(true);
-      sending: boolean;
-    
-      constructor(private api:ApiService) {  }
-    
-      ngOnInit() {
-        // subscribe to pusher's event
-        this.messages$=this.refreshMessages$.pipe(switchMap(_=>this.api.getmessages()))
-        this.chats = [
-          {
-            id: '1',
-            displayName: 'John Doe',
-            email: 'john@example.com',
-            type: 'human',
-            message: 'Hello there!',
-            createdAt: '2023-10-26T10:00:00',
-            isMe: true
-          },
-          {
-            id: '2',
-            displayName: 'Alice Smith',
-            email: 'alice@example.com',
-            type: 'human',
-            message: 'Hi, how are you?',
-            createdAt: '2023-10-26T10:05:00',
-            isMe: false
-          },          
-          {
-            id: '3',
-            displayName: 'Emma Johnson',
-            email: 'emma@example.com',
-            type: 'human',
-            message: 'Good morning!',
-            createdAt: '2023-10-26T10:10:00',
-            isMe: true
-          },
-          {
-            id: '4',
-            displayName: 'Bob Williams',
-            email: 'bob@example.com',
-            type: 'human',
-            message: 'How\'s the weather today?',
-            createdAt: '2023-10-26T10:15:00',
-            isMe: false
-          },
-          {
-            id: '5',
-            displayName: 'Olivia Davis',
-            email: 'olivia@example.com',
-            type: 'human',
-            message: 'I like your chat app!',
-            createdAt: '2023-10-26T10:20:00',
-            isMe: true
-          },
-          {
-            id: '6',
-            displayName: 'Liam Miller',
-            email: 'liam@example.com',
-            type: 'human',
-            message: 'Thanks! It\'s great!',
-            createdAt: '2023-10-26T10:25:00',
-            isMe: true
-          },
-          {
-            id: '7',
-            displayName: 'Ava Wilson',
-            email: 'ava@example.com',
-            type: 'human',
-            message: 'What are the features?',
-            createdAt: '2023-10-26T10:30:00',
-            isMe: false
-          },
-          {
-            id: '8',
-            displayName: 'Mason Jones',
-            email: 'mason@example.com',
-            type: 'human',
-            message: 'We have real-time chat and more!',
-            createdAt: '2023-10-26T10:35:00',
-            isMe: true
-          },
-          {
-            id: '9',
-            displayName: 'Charlotte Garcia',
-            email: 'charlotte@example.com',
-            type: 'human',
-            message: 'Sounds awesome!',
-            createdAt: '2023-10-26T10:40:00',
-            isMe: false
-          },
-          {
-            id: '10',
-            displayName: 'Ethan Martinez',
-            email: 'ethan@example.com',
-            type: 'human',
-            message: 'Feel free to ask any questions!',
-            createdAt: '2023-10-26T10:45:00',
-            isMe: true
-          }
-          // Add more sample data entries as needed
-        ];
-        
-        
-          
-      }
-    
-      sendMessage(message: string) {
+@Component({
+  selector: 'app-message',
+  templateUrl: './message.component.html',
+  styleUrls: ['./message.component.scss'],
+})
+export class MessageComponent implements OnInit {
+    @Input() childInput: string;
+  chats: IChat[] = [];
+message: string;
+  messages$: Observable<Array<{ message: string }>>;
+  refreshMessages$ = new BehaviorSubject<boolean>(true);
+  sending: boolean;
 
+  constructor(private api: ApiService,
+    private sharedService:SharedService) {}
+
+  ngOnInit() {
+    // subscribe to pusher's event
+    this.chats=this.sharedService.getmessages();
+    this.messages$ = this.refreshMessages$.pipe(
+      switchMap((_) => this.api.getmessages())
+    );
     
+  }
+
+  sendMessage() {
+    if (this.message) {
+      // Check if the message is not empty
+      // Create a new chat message
+      const newMessage: IChat = {
+        id: 'unique_id', // Generate a unique ID here
+        displayName: 'Your Name', // Set the sender's name
+        email: 'your_email@example.com', // Set the sender's email
+        type: 'human',
+        message: this.message,
+        createdAt: new Date().toUTCString(), // Set the current timestamp
+        isMe: true, // Assuming it's the sender's message
+      };
+
+      // Add the new message to the chats array
+      this.chats.push(newMessage);
+
+      // Clear the input field
+      this.message = '';
+
+
+      console.log(this.childInput)
+
+      // You can also send the new message to your backend here if needed
+      // this.api.sendMessage(this.message);
     }
   }
+}
